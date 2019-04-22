@@ -6,6 +6,7 @@ const ulfavEl = document.querySelector('.favs');
 const ulresultsEl = document.querySelector('.results');
 
 function btnClickHandler(){
+  ulresultsEl.innerHTML = '';
   const searchText = inputEl.value;
   fetch (`http://api.tvmaze.com/search/shows?q=${searchText}`)
     .then (response => response.json())
@@ -27,9 +28,16 @@ function btnClickHandler(){
         }
         newShow.appendChild(newImg);
         newShow.appendChild(newP);
+        newShow.addEventListener('click', favShow);
         ulresultsEl.appendChild(newShow);
       }
     });
 }
 
 buttonEl.addEventListener('click', btnClickHandler);
+
+function favShow (event) {
+  const thisShow= event.currentTarget;
+  thisShow.classList.toggle('selectedshow');
+}
+
