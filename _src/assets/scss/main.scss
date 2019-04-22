@@ -4,6 +4,14 @@ body {
 	height: 100vh;
 }
 
+.container {
+	display:grid;
+	grid-template-columns: 300px 1fr;
+	grid-template-rows: 100px 1fr;
+	grid-gap: 20px;
+	grid-template-areas: 'from results' 'fav results';
+}
+
 .show{
 	background-color: lightblue;
 	color: midnightblue;
@@ -12,4 +20,31 @@ body {
 .favshow{
 	background-color: midnightblue;
 	color: lightblue;
+
 }
+
+.favs {
+	width: 300px;
+	padding: 0;
+	grid-area: fav;
+	list-style: none;
+	.show{
+		background-color: #fff;
+		width: 100%;
+		display: flex;
+		align-items: center;
+	}
+	.image {
+		height: 100px;
+		margin: 10px;
+	}
+	.title{
+		color: black;	
+	}
+}
+
+.results {
+	grid-area: results;
+	list-style: none;
+}
+
