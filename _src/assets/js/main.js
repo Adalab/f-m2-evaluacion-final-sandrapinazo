@@ -5,6 +5,8 @@ const buttonEl = document.querySelector('.button');
 const ulfavEl = document.querySelector('.favs');
 const ulresultsEl = document.querySelector('.results');
 
+let favList = [];
+
 function btnClickHandler(){
   ulresultsEl.innerHTML = '';
   const searchText = inputEl.value;
@@ -38,6 +40,20 @@ buttonEl.addEventListener('click', btnClickHandler);
 
 function favShow (event) {
   const thisShow= event.currentTarget;
-  thisShow.classList.toggle('selectedshow');
+  thisShow.classList.toggle('favshow');
+  if (thisShow.classList.contains('favshow')) {
+    favList.push(thisShow);
+  }else {
+    for( var i = 0; i < favList.length; i++){ 
+      if ( favList[i] === thisShow) {
+        favList.splice(i, 1); 
+      }
+    }
+  }
+  console.log(favList);
+}
+
+function paintFavList () {
+    
 }
 
