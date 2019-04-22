@@ -1,6 +1,15 @@
 @import 'core/settings';
 
 body {
-	background: url('../images/logo-adalab-80px.png') center center no-repeat $color-white;
 	height: 100vh;
+}
+
+.show{
+	background-color: lightblue;
+	color: midnightblue;
+}
+
+.selectedshow{
+	background-color: midnightblue;
+	color: lightblue;
 }
