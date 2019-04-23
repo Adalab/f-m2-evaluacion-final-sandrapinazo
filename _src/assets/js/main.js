@@ -59,7 +59,6 @@ function addFavClassIfInFavList (show, id) {
   }
 }
 
-//AÑADE EFECTO FAV A SHOW DE LOS RESULTADOS, LO AÑADE A LISTA FAVS Y SI YA ESTA EN LISTA FAVS LO QUITA DE LA LISTA.
 function favShow (event) {
   const thisShow = event.currentTarget;
   thisShow.classList.toggle('favshow');
@@ -89,7 +88,6 @@ function toggleShowFromFavList (thisShow, favShow, favId) {
   }
 }
 
-//PINTA LA LISTA DE FAVORITOS CON BOTONES DE DELETE CON LISTENER
 function paintFavList () {
   ulfavEl.innerHTML = '';
   for (const show of favList){
@@ -112,12 +110,9 @@ function listenersForAllElements (array) {
   }
 }
 
-//GUARDA LISTA DE FAVS EN CACHE
 function saveFavs () {
   localStorage.setItem('favShowsList', JSON.stringify(favList));
 }
-
-//COMPRUEBA SI HAY FAVS GUARDADOS EN CACHE Y LOS PINTA
 function setfavListFromCache () {
   const savedFavs = JSON.parse(localStorage.getItem('favShowsList'));
   if(savedFavs) {
@@ -126,7 +121,6 @@ function setfavListFromCache () {
   }
 }
 
-//BORRAR DESDE EL BOTÓN DE DELETE DE CADA FAVORITO
 function handlerDeleteWithFavBtn (event) {
   const thisShow = event.currentTarget.parentElement;
   const thisShowId = thisShow.getAttribute('data-id');
@@ -156,7 +150,7 @@ function handlerdeleteAllFavs () {
   favList = [];
   paintFavList();
   saveFavs();
-  noFavsMessage();
+  noFavsHandler();
 }
 
 deleteAllBtnEl.addEventListener('click', handlerdeleteAllFavs);
