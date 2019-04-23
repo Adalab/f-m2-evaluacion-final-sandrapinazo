@@ -9,9 +9,10 @@ const deleteAllBtnEl = document.querySelector('.button__delete--all');
 let favList = [];
 
 setfavListFromCache();
+noFavsMessage();
 
 //VACIA LISTA DE RESULTADOS, HACE PETICIÓN A API Y PINTA RESULTADOS CON LISTENER
-function btnClickHandler () {
+function handlerBtnClick () {
   ulresultsEl.innerHTML = '';
   const searchText = inputEl.value;
   fetch (`http://api.tvmaze.com/search/shows?q=${searchText}`)
@@ -39,7 +40,7 @@ function btnClickHandler () {
     });
 }
 
-buttonEl.addEventListener('click', btnClickHandler);
+buttonEl.addEventListener('click', handlerBtnClick);
 
 function imageOrPlaceholder (image, newImg) {
   if (image) {
@@ -73,6 +74,7 @@ function favShow (event) {
   toggleShowFromFavList(thisShow, favShow, favId);
   paintFavList();
   saveFavs();
+  noFavsMessage();
 }
 
 function toggleShowFromFavList (thisShow, favShow, favId) {
@@ -106,7 +108,7 @@ function paintFavList () {
 
 function listenersForAllElements (array) {
   for (const element of array){
-    element.addEventListener('click', deleteWithFavBtn);
+    element.addEventListener('click', handlerDeleteWithFavBtn);
   }
 }
 
@@ -125,12 +127,13 @@ function setfavListFromCache () {
 }
 
 //BORRAR DESDE EL BOTÓN DE DELETE DE CADA FAVORITO
-function deleteWithFavBtn (event) {
+function handlerDeleteWithFavBtn (event) {
   const thisShow = event.currentTarget.parentElement;
   const thisShowId = thisShow.getAttribute('data-id');
   deleteFavShow(thisShowId);
   paintFavList();
   saveFavs();
+  noFavsMessage();
 }
 
 function deleteFavShow (id) {
@@ -141,18 +144,25 @@ function deleteFavShow (id) {
   }
 }
 
-function searchEnter (event) {
+function handlerEnter (event) {
   if (event.key === 'Enter') {
-    btnClickHandler();
+    handlerBtnClick();
   }
 }
 
-inputEl.addEventListener('keyup', searchEnter);
+inputEl.addEventListener('keyup', handlerEnter);
 
-function deleteAllFavs () {
+function handlerdeleteAllFavs () {
   favList = [];
   paintFavList();
   saveFavs();
+  noFavsMessage();
 }
 
-deleteAllBtnEl.addEventListener('click', deleteAllFavs);
+deleteAllBtnEl.addEventListener('click', handlerdeleteAllFavs);
+
+function noFavsMessage () {
+  if (favList.length === 0) {
+    ulfavEl.innerHTML = '<p class="no-favs">No hay favoritos.</p>';
+  }
+}
