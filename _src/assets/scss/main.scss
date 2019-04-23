@@ -2,36 +2,91 @@
 
 body {
 	height: 100vh;
+	margin: 0;
+}
+
+.page-title {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	text-align: center;
 }
 
 .container {
-	display:grid;
+	margin: 0 auto;
+	max-width: 1200px;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	font-weight: bold;
+	display: grid;
 	grid-template-columns: 300px 1fr;
-	grid-template-rows: 100px 1fr;
-	grid-gap: 20px;
+	grid-template-rows: 75px 1fr;
 	grid-template-areas: 'from results' 'fav results';
 }
-
-.show{
-	background-color: lightblue;
-	color: midnightblue;
+.form-container {
+	grid-area: form;
 }
-
-.favshow{
-	background-color: midnightblue;
-	color: lightblue;
-
+.favs-container {
+	grid-area: fav;
+	.fav-text{
+		text-align: center;
+	}
 }
-
+.results-container {
+	grid-area: results;
+}
+.form {
+	padding: 0px 30px;
+	.form-label {
+		font-weight: normal;
+	}
+	#TVshow {
+		margin: 10px 0;
+		width: 160px;
+		padding: 5px;
+		border-radius: 5px;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+	}
+	.button {
+		padding: 5px;
+		background-color: #0297ea;
+		color: #c9d3e2;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: 5px;
+		box-shadow: inset 0 2px 5px #c9d3e2;
+		font-weight: bold;
+	}
+}
+.results {
+	grid-area: results;
+    margin: 0 auto;
+	list-style: none;
+	display: grid;
+	grid-template-columns: repeat(3, 232px);
+	grid-auto-rows: 360px;
+    grid-gap: 15px;
+	width: 756px;
+	.show{
+		padding: 10px;
+		background-color: #c9d3e2;
+		color: #0371ad;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: 5px;
+		box-shadow: 0 1px 7px rgba(0, 0, 0, 0.3);
+	}
+	.favshow{
+		background-color: #0371ad;
+		color: #c9d3e2;
+		box-shadow: 0;
+	}
+}
 .favs {
+	margin: 0;
 	width: 300px;
 	padding: 0;
-	grid-area: fav;
 	list-style: none;
 	.show{
+		padding: 0 20px;
 		background-color: #fff;
-		width: 100%;
 		display: flex;
+		justify-content: flex-start;
 		align-items: center;
 	}
 	.image {
@@ -40,11 +95,26 @@ body {
 	}
 	.title{
 		color: black;	
+		font-size: 13px;
+		flex-grow: 1;
+	}
+	.delete{
+		height: 20px;
+		width: 20px;
+		margin: 10px;
+		font-size: 13px;
+		text-align: center;
+		background-color: #000;
+		color: #fff;
+		border: none;
+		border-radius: 50%;
 	}
 }
 
-.results {
-	grid-area: results;
-	list-style: none;
-}
+
+
+
+
+
+
 

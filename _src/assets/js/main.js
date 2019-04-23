@@ -7,6 +7,8 @@ const ulresultsEl = document.querySelector('.results');
 
 let favList = [];
 
+setfavListFromCache();
+
 function btnClickHandler(){
   ulresultsEl.innerHTML = '';
   const searchText = inputEl.value;
@@ -42,30 +44,31 @@ buttonEl.addEventListener('click', btnClickHandler);
 
 function favShow (event) {
   const thisShow = event.currentTarget;
-  const favShow = thisShow.cloneNode(true);
-  console.log(thisShow);
-  
-  thisShow.classList.add('favshow');
-// if (thisShow.classList.contains('favshow')) {
-  favList.push(favShow);
-//Try to remove favs , classList.toggle('favshow')
-//   }else {
-//     for( let i = 0; i < favList.length; i++){ 
-//       if ( favList[i] === favShow) {
-//         console.log('check');
-//         favList.splice(i, 1);
-//       }
-//     }
-//   }
+  thisShow.classList.toggle('favshow');
+  const favTitle = thisShow.querySelector('p').innerHTML;
+  const favImg = thisShow.querySelector('img').src;
+  const favShow = {
+    title: favTitle,
+    img: favImg,
+  };
+  if (thisShow.classList.contains('favshow')) {
+    favList.push(favShow);
+  }
   paintFavList ();
   saveFavs();
-  console.log(favList);
 }
 
 function paintFavList () {
   ulfavEl.innerHTML = '';
   for (const show of favList){
-    ulfavEl.appendChild(show);
+    const {title,img} = show;
+    const showLi = `
+    <li class="show">
+        <img src= ${img} alt=${title} class="image">
+        <p class="title">${title}</p>
+        <button class="delete">X</button>
+    </li>`;
+    ulfavEl.innerHTML+=showLi;
   }
 }
 
@@ -77,8 +80,38 @@ function setfavListFromCache () {
   const savedFavs = JSON.parse(localStorage.getItem('favShowsList'));
   if(savedFavs) {
     favList = savedFavs;
-    console.log(savedFavs);
     paintFavList();
   }
 }
-setfavListFromCache();
+
+
+
+//PRUEBAS
+//console.log('favShow', favShow);
+//   for( let i = 0; i < favList.length; i++){
+//     if (favList[i].name === favShow.name && favList[i].img === favShow.img) {
+//     console.log('check');
+//     const isFav= true;
+//     }
+//   }
+//   if (isFav) {
+//     // for( let i = 0; i < favList.length; i++){
+//     //     if (favList[i].name === favShow.name && favList[i].img === favShow.img) {
+//     //     console.log('check');
+//     //     favList.splice(i, 1);
+//            }
+//     // }
+//
+//   }else{
+//     favList.push(favShow);
+// for( let i = 0; i < favList.length; i++){
+//   if (favList[i].name === favShow.name && favList[i].img === favShow.img) {
+//     console.log('check');
+//     favList.splice(i, 1);
+//   }else{
+//     console.log('check');
+//     favList.push(favShow);
+//   }
+// }
+//}
+//}
