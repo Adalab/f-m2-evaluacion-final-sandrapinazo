@@ -27,8 +27,20 @@ body {
 
 .favs-container {
 	grid-area: fav;
+	text-align: center;
 	.fav-text{
 		text-align: center;
+	}
+	.button__delete--all {
+		position: relative;
+		padding: 2px 7px;
+		margin: 10px;
+		font-size: 13px;
+		text-align: center;
+		background-color: #000;
+		color: #fff;
+		border: none;
+		border-radius: 10px;
 	}
 }
 .results-container {
@@ -97,6 +109,7 @@ body {
 		margin: 10px;
 	}
 	.title{
+		text-align: left;
 		color: black;	
 		font-size: 13px;
 		flex-grow: 1;
@@ -105,7 +118,7 @@ body {
 		height: 20px;
 		width: 20px;
 		margin: 10px;
-		font-size: 13px;
+		font-size: 10px;
 		text-align: center;
 		background-color: #000;
 		color: #fff;

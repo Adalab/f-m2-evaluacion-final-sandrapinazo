@@ -4,13 +4,14 @@ const inputEl = document.querySelector('#TVshow');
 const buttonEl = document.querySelector('.button');
 const ulfavEl = document.querySelector('.favs');
 const ulresultsEl = document.querySelector('.results');
+const deleteAllBtnEl = document.querySelector('.button__delete--all');
 
 let favList = [];
 
 setfavListFromCache();
 
 //VACIA LISTA DE RESULTADOS, HACE PETICIÓN A API Y PINTA RESULTADOS CON LISTENER
-function btnClickHandler(){
+function btnClickHandler () {
   ulresultsEl.innerHTML = '';
   const searchText = inputEl.value;
   fetch (`http://api.tvmaze.com/search/shows?q=${searchText}`)
@@ -23,22 +24,13 @@ function btnClickHandler(){
         newShow.classList.add('show');
         newShow.setAttribute('data-id', id);
         const newP = document.createElement('p');
-        newP.classList.add('title');
         const pContent = document.createTextNode(name);
+        newP.classList.add('title');
         newP.appendChild(pContent);
         const newImg = document.createElement('img');
         newImg.classList.add('image');
-        if (image){
-          const {medium: imageMedium} = image;
-          newImg.src= imageMedium;
-        }else{
-          newImg.src= 'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
-        }
-        for( let i = 0; i < favList.length; i++){
-          if (parseInt(favList[i].id) === id) {
-            newShow.classList.add('favshow');
-          }
-        }
+        imageOrPlaceholder(image, newImg);
+        addFavClassIfInFavList(newShow, id);
         newShow.appendChild(newImg);
         newShow.appendChild(newP);
         newShow.addEventListener('click', favShow);
@@ -48,6 +40,23 @@ function btnClickHandler(){
 }
 
 buttonEl.addEventListener('click', btnClickHandler);
+
+function imageOrPlaceholder (image, newImg) {
+  if (image) {
+    const {medium: imageMedium} = image;
+    newImg.src= imageMedium;
+  }else{
+    newImg.src= 'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
+  }
+}
+
+function addFavClassIfInFavList (show, id) {
+  for ( let i = 0; i < favList.length; i++){
+    if (parseInt(favList[i].id) === id) {
+      show.classList.add('favshow');
+    }
+  }
+}
 
 //AÑADE EFECTO FAV A SHOW DE LOS RESULTADOS, LO AÑADE A LISTA FAVS Y SI YA ESTA EN LISTA FAVS LO QUITA DE LA LISTA.
 function favShow (event) {
@@ -61,18 +70,21 @@ function favShow (event) {
     title: favTitle,
     img: favImg,
   };
+  toggleShowFromFavList(thisShow, favShow, favId);
+  paintFavList();
+  saveFavs();
+}
+
+function toggleShowFromFavList (thisShow, favShow, favId) {
   if (thisShow.classList.contains('favshow')) {
     favList.push(favShow);
   }else{
     for( let i = 0; i < favList.length; i++){
-      console.log('for');
       if (favList[i].id === favId) {
         favList.splice(i, 1);
       }
     }
   }
-  paintFavList ();
-  saveFavs();
 }
 
 //PINTA LA LISTA DE FAVORITOS CON BOTONES DE DELETE CON LISTENER
@@ -89,8 +101,12 @@ function paintFavList () {
     ulfavEl.innerHTML+=showLi;
   }
   const btnDelete = ulfavEl.querySelectorAll('.delete');
-  for (const button of btnDelete){
-    button.addEventListener('click', deleteFavBtn);
+  listenersForAllElements(btnDelete);
+}
+
+function listenersForAllElements (array) {
+  for (const element of array){
+    element.addEventListener('click', deleteWithFavBtn);
   }
 }
 
@@ -109,29 +125,34 @@ function setfavListFromCache () {
 }
 
 //BORRAR DESDE EL BOTÓN DE DELETE DE CADA FAVORITO
-function deleteFavBtn (event) {
+function deleteWithFavBtn (event) {
   const thisShow = event.currentTarget.parentElement;
   const thisShowId = thisShow.getAttribute('data-id');
-  console.log(thisShow, 'delete', thisShowId);
-  for( let i = 0; i < favList.length; i++){
-    if (favList[i].id === thisShowId) {
-      console.log('check');
-      favList.splice(i, 1);
-    }
-  }
+  deleteFavShow(thisShowId);
   paintFavList();
   saveFavs();
 }
 
-//PODER BUSCAR CON ENTER
-function handlerEnter (event) {
-  event.preventDefault();
-  console.log(event);
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    btnClickHandler();
-    console.log('enter');
+function deleteFavShow (id) {
+  for( let i = 0; i < favList.length; i++){
+    if (favList[i].id === id) {
+      favList.splice(i, 1);
+    }
   }
 }
 
-inputEl.addEventListener('keyup', handlerEnter);
+function searchEnter (event) {
+  if (event.key === 'Enter') {
+    btnClickHandler();
+  }
+}
+
+inputEl.addEventListener('keyup', searchEnter);
+
+function deleteAllFavs () {
+  favList = [];
+  paintFavList();
+  saveFavs();
+}
+
+deleteAllBtnEl.addEventListener('click', deleteAllFavs);
