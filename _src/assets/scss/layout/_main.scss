@@ -1,0 +1,20 @@
+body {
+	height: 100vh;
+	margin: 0;
+}
+
+.page-title {
+	font-family: $font-main;
+	text-align: center;
+}
+
+.container {
+	margin: 0 auto;
+	max-width: 1200px;
+	font-family: $font-main;
+	font-weight: bold;
+	display: grid;
+	grid-template-columns: 300px 1fr;
+	grid-template-rows: 75px 1fr;
+	grid-template-areas: 'form results' 'fav results';
+}

@@ -1,0 +1,26 @@
+.results-container {
+	grid-area: results;
+}
+
+.results {
+	grid-area: results;
+    margin: 0 auto;
+	list-style: none;
+	display: grid;
+	grid-template-columns: repeat(3, 232px);
+    grid-gap: 15px;
+	width: 756px;
+	.show{
+		padding: 10px;
+		background-color: $color-ligth;
+		color: $color-dark;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: 5px;
+		box-shadow: 0 1px 7px rgba(0, 0, 0, 0.3);
+	}
+	.favshow{
+		background-color: $color-dark;
+		color: $color-ligth;
+		box-shadow: 0;
+	}
+}

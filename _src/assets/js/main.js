@@ -9,7 +9,7 @@ const deleteAllBtnEl = document.querySelector('.button__delete--all');
 let favList = [];
 
 setfavListFromCache();
-noFavsMessage();
+noFavsHandler();
 
 //VACIA LISTA DE RESULTADOS, HACE PETICIÓN A API Y PINTA RESULTADOS CON LISTENER
 function handlerBtnClick () {
@@ -74,7 +74,7 @@ function favShow (event) {
   toggleShowFromFavList(thisShow, favShow, favId);
   paintFavList();
   saveFavs();
-  noFavsMessage();
+  noFavsHandler();
 }
 
 function toggleShowFromFavList (thisShow, favShow, favId) {
@@ -133,7 +133,7 @@ function handlerDeleteWithFavBtn (event) {
   deleteFavShow(thisShowId);
   paintFavList();
   saveFavs();
-  noFavsMessage();
+  noFavsHandler();
 }
 
 function deleteFavShow (id) {
@@ -161,8 +161,9 @@ function handlerdeleteAllFavs () {
 
 deleteAllBtnEl.addEventListener('click', handlerdeleteAllFavs);
 
-function noFavsMessage () {
+function noFavsHandler () {
   if (favList.length === 0) {
     ulfavEl.innerHTML = '<p class="no-favs">No hay favoritos.</p>';
+    localStorage.removeItem('favShowsList');
   }
 }
