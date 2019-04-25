@@ -5,13 +5,14 @@ const buttonEl = document.querySelector('.button');
 const ulfavEl = document.querySelector('.favs');
 const ulresultsEl = document.querySelector('.results');
 const deleteAllBtnEl = document.querySelector('.button__delete--all');
+const resultsNumber = document.querySelector('.result-number');
 
 let favList = [];
+const configNumbers = [5, 8, 10];
 
 setfavListFromCache();
 noFavsHandler();
 
-//VACIA LISTA DE RESULTADOS, HACE PETICIÓN A API Y PINTA RESULTADOS CON LISTENER
 function handlerBtnClick () {
   ulresultsEl.innerHTML = '';
   const searchText = inputEl.value;
@@ -19,8 +20,9 @@ function handlerBtnClick () {
     .then (response => response.json())
     .then (function (data) {
       for (const object of data) {
+        console.log(data);
         const {show} = object;
-        const {id, name, image} = show;
+        const {id, name, image, premiered} = show;
         const newShow = document.createElement('li');
         newShow.classList.add('show');
         newShow.setAttribute('data-id', id);
@@ -28,19 +30,42 @@ function handlerBtnClick () {
         const pContent = document.createTextNode(name);
         newP.classList.add('title');
         newP.appendChild(pContent);
+        const newPremiere = document.createElement('p');
+        const premiereContent = document.createTextNode(premiered);
+        newPremiere.appendChild(premiereContent);
         const newImg = document.createElement('img');
         newImg.classList.add('image');
         imageOrPlaceholder(image, newImg);
         addFavClassIfInFavList(newShow, id);
         newShow.appendChild(newImg);
         newShow.appendChild(newP);
+        newShow.appendChild(newPremiere);
         newShow.addEventListener('click', favShow);
         ulresultsEl.appendChild(newShow);
       }
+      const results = data.length;
+      resultsNumber.innerHTML = results;
     });
 }
 
 buttonEl.addEventListener('click', handlerBtnClick);
+
+//el numero de resultados es X y es mayor o menor que N
+function handlerResults (event) {
+  for (const n of configNumbers) {
+    const results = event.currentTarget.innerHTML;
+    console.log(n, results);
+    if (results < n) {
+      console.log(`El número de resultados es ${results} y es menor que ${n}.`);
+    } else if (results > n){
+      console.log(`El número de resultados es ${results} y es mayor que ${n}`);
+    } else {
+      console.log(`El numero de resultados es ${results} y es igual que ${n}`);
+    }
+  }
+}
+
+resultsNumber.addEventListener('click', handlerResults);
 
 function imageOrPlaceholder (image, newImg) {
   if (image) {
